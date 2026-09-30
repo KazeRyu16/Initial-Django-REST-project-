@@ -8,9 +8,9 @@ from rest_framework.response import Response
 def api_home(request, *args, **kwargs):
 
     serializer = ProductSerializer(data=request.data)
-    if serializer.is_valid():
-        instance = serializer.save()
-        print(instance)
+    if serializer.is_valid(raise_exception=True):
+        #instance = serializer.save()
+        print(serializer.data)
         return Response(serializer.data)
         
 #    return HttpResponse(json_data, headers={"content-type":"application/json"})
