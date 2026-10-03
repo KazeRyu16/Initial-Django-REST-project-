@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.decorators import api_view
 
 from .models import product
 from .serializers import ProductSerializer
@@ -7,7 +8,7 @@ class DetailedProductView(generics.RetrieveAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
 
-class ProductCreateAPI(generics.CreateAPIView):
+class ProductListCreateAPI(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
 
@@ -18,3 +19,13 @@ class ProductCreateAPI(generics.CreateAPIView):
         if content is None:
             content = title
         serializer.save(content=content)
+
+class ProductUpdateAPI(generics.UpdateAPIView):
+    queryset = product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer): 
+        instance = serializer.save
+        
+ 
