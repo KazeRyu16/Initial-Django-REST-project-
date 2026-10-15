@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'cfhome.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "persondb",
+        "NAME": "",
         "USER": "postgres",
-        "PASSWORD": "Onepiece666",
-        "HOST": "localhost",
+        "PASSWORD": "Proplayer121#",
+        "HOST": "127.0.0.1",
         "PORT": "5432",
     }
 }
