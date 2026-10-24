@@ -1,4 +1,4 @@
-from rest_framework import generics,mixins
+from rest_framework import generics,mixins,permissions
 from rest_framework.decorators import api_view
 
 from .models import product
@@ -11,6 +11,7 @@ class DetailedProductView(generics.RetrieveAPIView):
 class ProductListCreateAPI(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer # works fine till here but the content is set to none if the user leaves it blank
+    permission_classes =[permissions.IsAuthenticated]
 
       #function the make the context same as title if its set to none or null
     def perform_create(self, serializer):
@@ -25,6 +26,8 @@ class ProductUpdateAPI(generics.UpdateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+   
+
 
     def perform_update(self, serializer): 
         instance = serializer.save()
@@ -45,11 +48,14 @@ class ProductMixinView(
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
-    generics.GenericAPIView
+    generics.GenericAPIView,
+    mixins.DestroyModelMixin
     ):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+    permission_classes =[permissions.IsAuthenticated]
+
 
     def get(self,request,*args,**kwargs):  
         print(args,kwargs)  #prints args and kwargs in the server side
@@ -79,6 +85,12 @@ class ProductMixinView(
         if  content != title:
             content = "Django is crazy"
         serializer.save(content=content)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request,*args,*kwargs)
+
+    def perform_destroy(self, instance):
+        instance.delete()
        
 
 

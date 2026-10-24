@@ -79,12 +79,8 @@ WSGI_APPLICATION = 'cfhome.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "",
-        "USER": "postgres",
-        "PASSWORD": "Proplayer121#",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
