@@ -1,4 +1,4 @@
-from rest_framework import generics,mixins,permissions
+from rest_framework import generics,mixins,permissions,authentication
 from rest_framework.decorators import api_view
 
 from .models import product
@@ -11,6 +11,7 @@ class DetailedProductView(generics.RetrieveAPIView):
 class ProductListCreateAPI(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer # works fine till here but the content is set to none if the user leaves it blank
+    authentication_classes = [authentication.SessionAuthentication]
     permission_classes =[permissions.IsAuthenticated]
 
       #function the make the context same as title if its set to none or null
@@ -54,7 +55,8 @@ class ProductMixinView(
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    permission_classes =[permissions.IsAuthenticated]
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes =[permissions.DjangoModelPermissions]
 
 
     def get(self,request,*args,**kwargs):  
