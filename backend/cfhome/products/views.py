@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view
 from .models import product
 from .serializers import ProductSerializer
 
+from .permissions import IsStaffEditorPermission
+
 class DetailedProductView(generics.RetrieveAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
@@ -56,7 +58,7 @@ class ProductMixinView(
     serializer_class = ProductSerializer
     lookup_field = 'pk'
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes =[permissions.DjangoModelPermissions]
+    permission_classes =[IsStaffEditorPermission]
 
 
     def get(self,request,*args,**kwargs):  
