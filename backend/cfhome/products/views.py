@@ -57,7 +57,7 @@ class ProductMixinView(
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [authentication.SessionAuthentication,authentication.TokenAuthentication]
     permission_classes =[IsStaffEditorPermission]
 
 
