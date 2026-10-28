@@ -6,6 +6,8 @@ from .serializers import ProductSerializer
 
 from .permissions import IsStaffEditorPermission
 
+from api.authentication import TokenAuthentication
+
 class DetailedProductView(generics.RetrieveAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
@@ -57,7 +59,7 @@ class ProductMixinView(
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    authentication_classes = [authentication.SessionAuthentication,authentication.TokenAuthentication]
+    authentication_classes = [authentication.SessionAuthentication,TokenAuthentication]
     permission_classes =[IsStaffEditorPermission]
 
 
