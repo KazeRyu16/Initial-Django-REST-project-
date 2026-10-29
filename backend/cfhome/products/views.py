@@ -15,8 +15,8 @@ class DetailedProductView(generics.RetrieveAPIView):
 class ProductListCreateAPI(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer # works fine till here but the content is set to none if the user leaves it blank
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes =[permissions.IsAuthenticated]
+    authentication_classes = [authentication.SessionAuthentication,TokenAuthentication]
+    permission_classes =[permissions.IsAdminUser,IsStaffEditorPermission]
 
       #function the make the context same as title if its set to none or null
     def perform_create(self, serializer):
