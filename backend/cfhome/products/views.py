@@ -4,9 +4,11 @@ from rest_framework.decorators import api_view
 from .models import product
 from .serializers import ProductSerializer
 
-from .permissions import IsStaffEditorPermission
+from  api.permissions import IsStaffEditorPermission
 
 from api.authentication import TokenAuthentication
+
+from api.mixins import StaffEditorPermissionMixin
 
 class DetailedProductView(generics.RetrieveAPIView):
     queryset = product.objects.all()
@@ -54,13 +56,12 @@ class ProductMixinView(
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
     generics.GenericAPIView,
-    mixins.DestroyModelMixin
+    mixins.DestroyModelMixin,StaffEditorPermissionMixin
     ):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
     authentication_classes = [authentication.SessionAuthentication,TokenAuthentication]
-    permission_classes =[IsStaffEditorPermission]
 
 
     def get(self,request,*args,**kwargs):  
