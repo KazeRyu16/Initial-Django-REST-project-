@@ -13,6 +13,9 @@ from api.mixins import StaffEditorPermissionMixin
 class DetailedProductView(generics.RetrieveAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [authentication.SessionAuthentication,TokenAuthentication]
+    permission_classes =[permissions.IsAdminUser,IsStaffEditorPermission]
+    
 
 class ProductListCreateAPI(generics.ListCreateAPIView):
     queryset = product.objects.all()
@@ -33,9 +36,10 @@ class ProductUpdateAPI(generics.UpdateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-   
+    authentication_classes = [authentication.SessionAuthentication,TokenAuthentication]
+    permission_classes =[permissions.IsAdminUser,IsStaffEditorPermission]
 
-
+    
     def perform_update(self, serializer): 
         instance = serializer.save()
         if not instance.content:
@@ -70,7 +74,7 @@ class ProductMixinView(
         if pk is not None:
             return self.retrieve(request,*args,**kwargs)   #if pk is present return the data or just return the list instead
         return self.list(request,*args,**kwargs)
-
+    
     def post(self,request,*args,**kwargs):
         return self.create(request,*args,**kwargs)
 
@@ -81,7 +85,6 @@ class ProductMixinView(
             content = "This is me trying new stuffs"
         hello = serializer.save(content = content)
         print(hello)
-
 
     def put(self,request,*args,**kwargs):
         return self.update(request,*args,**kwargs)
