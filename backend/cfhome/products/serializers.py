@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import product
 from rest_framework.reverse import reverse
+from .validators import validate_title
+from . import validators
 
 class ProductSerializer(serializers.ModelSerializer):
     My_discount = serializers.SerializerMethodField(read_only=True )
@@ -8,12 +10,15 @@ class ProductSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name ='product-detail',
         lookup_field = 'pk')
-    # email = serializers.EmailField(write_only = True)
+    title = serializers.CharField(validators=[validate_title])
+    #email = serializers.EmailField(write_only = True) # adds a email field on the apiview
     class Meta:
         model = product
         fields = [
             'edit_url',
-           # 'email',
+            'user',
+           #'email',
+           
             'url',
             'pk',
             'title',
@@ -23,21 +28,21 @@ class ProductSerializer(serializers.ModelSerializer):
             'My_discount'
         ]
 
-    def validate_title(self,value):
-        extra = product.objects.filter(title__iexact=value)
-        if extra.exists():
-            raise serializers.ValidationError(f"{value} is already a product name")
-        return value
+    # def validate_title(self,value):   #validates and allows the serializer to not accept the same title twice
+    #     extra = product.objects.filter(title__iexact=value)
+    #     if extra.exists():
+    #         raise serializers.ValidationError(f"{value} is already a product name")
+    #     return value
 
 
 
 
 
-    #def create(self,validated_data):
-        email = validated_data.pop('email')
-        obj = super().create(validated_data)
-        print(email,obj)
-        return obj
+    #def create(self,validated_data):  # to add take in email from the api-view and give us the emial address
+        # email = validated_data.pop('email')
+        # obj = super().create(validated_data)
+        # print(email,obj)
+        # return obj
 
     def get_edit_url(self,obj):
         request = self.context.get('request')

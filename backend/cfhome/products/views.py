@@ -32,6 +32,15 @@ class ProductListCreateAPI(generics.ListCreateAPIView):
             content = title
         serializer.save(content=content)  # this custom function just makes the content same as title
 
+    def get_queryset(self,*args,**kwargs):
+        qs = super().get_queryset(*args,**kwargs)
+        request = self.request
+        user = request.user
+        if not user.is_authenticated:
+            return product.objects.none()
+        #print(request.user)
+        return qs.filter(user = request.user)
+
 class ProductUpdateAPI(generics.UpdateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
