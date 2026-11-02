@@ -5,3 +5,4 @@ class StaffEditorPermissionMixin():
     permissions_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
 
+    
