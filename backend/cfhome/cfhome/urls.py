@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/',include ('api.urls')),
     path('api/product/',include ('products.urls')),
     path('api/v2/',include(router.urls)),
+    path('api/search/',include ('search.urls')),
 ]
