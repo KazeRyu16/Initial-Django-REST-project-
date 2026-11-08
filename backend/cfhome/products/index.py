@@ -4,12 +4,14 @@ from .models import product
 
 @register(product)
 class ProductIndex(AlgoliaIndex):
-    should_index = 'is_public'
+    # should_index = 'is_public'
     fields = [
         'title',
         'content',
         'price',
         'public'
     ]
+   
     tags = 'random_taglist'
+
 

@@ -1,11 +1,22 @@
 from algoliasearch_django import algolia_engine
 
-def get_index(index_name='cf_products'):
-    client = algolia_engine.client
-    index =  client.init_index(index_name)
-    return index
 
-def perform_search(query,**kwargs):
-    index = get_index()
-    results = index.search(query)
-    return results
+def getclient():
+    return algolia_engine.client
+
+
+def perform_search(query, **kwargs):
+    client = getclient()
+
+    search_params = {
+        'query': query,
+        **kwargs
+    }
+
+    results = client.search_single_index(
+        index_name='product',
+        search_params=search_params
+    )
+
+    return results.to_dict()
+  
