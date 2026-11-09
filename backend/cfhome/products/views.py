@@ -1,6 +1,6 @@
 from rest_framework import generics,mixins,permissions,authentication
 from rest_framework.decorators import api_view
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import product
 from .serializers import ProductSerializer
 
@@ -20,7 +20,7 @@ class DetailedProductView(generics.RetrieveAPIView):
 class ProductListCreateAPI(generics.ListCreateAPIView):
     queryset = product.objects.all()
     serializer_class = ProductSerializer # works fine till here but the content is set to none if the user leaves it blank
-    authentication_classes = [authentication.SessionAuthentication,TokenAuthentication]
+    authentication_classes = [authentication.SessionAuthentication,TokenAuthentication,JWTAuthentication]
     permission_classes =[permissions.IsAdminUser,IsStaffEditorPermission]
 
       #function the make the context same as title if its set to none or null

@@ -14,4 +14,4 @@ class ProductIndex(AlgoliaIndex):
    
     tags = 'random_taglist'
 
-
+    settings = {'searchableAttributes':['title','content']}

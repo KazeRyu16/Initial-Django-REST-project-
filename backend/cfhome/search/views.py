@@ -8,10 +8,10 @@ from . import client
  
 class SearchListView(generics.GenericAPIView):
     def get(self,request,*args,**kwargs):
-        q = self.request.GET.get('q')
-        if not q:
+        query = request.GET.get('q')
+        if not query:
             return Response('',status=400)     
-        results = client.perform_search(q)
+        results = client.perform_search(query)
         return Response(results)
 
 class SearchListOldView(generics.ListAPIView):
