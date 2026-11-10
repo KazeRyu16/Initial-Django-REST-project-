@@ -47,12 +47,15 @@ INSTALLED_APPS = [
     'search',
 
     'algoliasearch_django',
+    'corsheaders'
+
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,6 +64,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'cfhome.urls'
+CORS_URLS_REGEX = r"^/api/.*"
+CORS_ALLOWED_ORIGINS = [
+        'http://localhost:8111',
+        'https://localhost:8111',
+        'http://127.0.0.1:8111',
+
+
+]
 
 TEMPLATES = [
     {
